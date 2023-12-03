@@ -33,8 +33,8 @@ class GearRatiosTest {
     }
 
     @TestFactory
-    fun numbersExists() {
-        numberValuesInTestData.map { numberValue ->
+    fun numbersExists(): List<DynamicTest> {
+        return numberValuesInTestData.map { numberValue ->
             DynamicTest.dynamicTest("hasNumber: $numberValue") { numberExists(numberValue) }
         }
     }
@@ -44,15 +44,21 @@ class GearRatiosTest {
         Assertions.assertTrue(numbersValues.contains(numberValue))
     }
     @TestFactory
-    fun numbersHasNoSymbol() {
+    fun numbersHasNoSymbol() : List<DynamicTest> {
         val numbersWithoutSymbol = getNumbers().filter { number: Number -> !number.hasSymbol() }
         val numbersValues: Collection<Int> = numbersWithoutSymbol.map(Number::value)
 
-        numberValuesWithoutSymbol.map { numberValue ->
+        return numberValuesWithoutSymbol.map { numberValue ->
             DynamicTest.dynamicTest("numberHasNoSymbol: $numberValue") {
                 numbersValues.contains(numberValue)
             }
         }
+    }
+    @Test
+    fun numbersWithoutSymbols() {
+        val numbersWithoutSymbol = getNumbers().filter { number: Number -> !number.hasSymbol() }
+
+        Assertions.assertEquals(numberValuesWithoutSymbol.size, numbersWithoutSymbol.size)
     }
 
 
