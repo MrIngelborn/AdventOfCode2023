@@ -21,14 +21,16 @@ class Schematic(val numbers: Collection<Number>, val symbols: Collection<Symbol>
                             numberValue = addCharToNumber(numberValue, char)
                             numberStart = numberStart ?: x
                         }
-                        '.' -> {
+                        else -> {
+                            if (char != '.') {
+                                addSymbol(char, x, y)
+                            }
                             numberValue?.run {
                                 finalizeNumber(numberValue !!, numberStart !!, y)
                                 numberValue = null
                                 numberStart = null
                             }
                         }
-                        else -> addSymbol(char, x, y)
                     }
                 }
                 numberValue?.run {finalizeNumber(numberValue !!, numberStart !!, y) }
@@ -43,9 +45,9 @@ class Schematic(val numbers: Collection<Number>, val symbols: Collection<Symbol>
             val symbolMap : Map<Pair<Int, Int>, Symbol> = symbols.stream().collect(Collectors.toMap(Symbol::positionXY, Function.identity()))
 
             numbers.forEach { number ->
-                val numberLength = number.toString().length
+                val numberLength = number.value.toString().length
                 val minX = number.startPositionXY.first - 1
-                val maxX = number.startPositionXY.first + numberLength + 1
+                val maxX = number.startPositionXY.first + numberLength
                 val minY = number.startPositionXY.second - 1
                 val maxY = number.startPositionXY.second + 1
 
