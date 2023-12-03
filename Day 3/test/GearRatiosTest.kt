@@ -1,5 +1,6 @@
 import gear_ratios.Number
 import gear_ratios.Schematic
+import gear_ratios.Symbol
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DynamicTest
@@ -61,6 +62,18 @@ class GearRatiosTest {
         Assertions.assertEquals(numberValuesWithoutSymbol.size, numbersWithoutSymbol.size)
     }
 
-
+    @Test
+    fun canFindGears() {
+        val symbolsWithExactlyNumbers = schematic.symbols.filter { symbol: Symbol -> symbol.numbers.size == 2 }
+        Assertions.assertEquals(2, symbolsWithExactlyNumbers.size)
+    }
+    @Test
+    fun gearRatioSumIsCorrect() {
+        val symbolsWithExactlyNumbers = schematic.symbols.filter { symbol: Symbol -> symbol.numbers.size == 2 }
+        val gearRatioSum = symbolsWithExactlyNumbers.map { symbol: Symbol ->
+            symbol.numbers.map(Number::value).reduce{ a, b -> a * b }
+        }.sum()
+        Assertions.assertEquals(467835, gearRatioSum)
+    }
 
 }
