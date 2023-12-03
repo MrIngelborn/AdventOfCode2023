@@ -53,7 +53,10 @@ class Schematic(val numbers: Collection<Number>, val symbols: Collection<Symbol>
 
                 for (x in minX..maxX) {
                     for (y in minY..maxY) {
-                        symbolMap[x to y]?.let { number.addSymbol(it) }
+                        symbolMap[x to y]?.let { symbol ->
+                            number.addSymbol(symbol)
+                            symbol.addNumber(number)
+                        }
                     }
                 }
             }
