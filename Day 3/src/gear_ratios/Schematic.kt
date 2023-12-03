@@ -1,6 +1,8 @@
 package gear_ratios
 
 import java.util.ArrayList
+import java.util.function.Function
+import java.util.stream.Collectors
 
 class Schematic(val numbers: Collection<Number>, val symbols: Collection<Symbol>) {
     companion object Factory {
@@ -32,7 +34,27 @@ class Schematic(val numbers: Collection<Number>, val symbols: Collection<Symbol>
                 numberValue?.run {finalizeNumber(numberValue !!, numberStart !!, y) }
             }
 
+            addSymbolsToNumbers(numbers, symbols)
+
             return Schematic(numbers, symbols)
+        }
+
+        private fun addSymbolsToNumbers(numbers: ArrayList<Number>, symbols: ArrayList<Symbol>) {
+            val symbolMap : Map<Pair<Int, Int>, Symbol> = symbols.stream().collect(Collectors.toMap(Symbol::positionXY, Function.identity()))
+
+            numbers.forEach { number ->
+                val numberLength = number.toString().length
+                val minX = number.startPositionXY.first - 1
+                val maxX = number.startPositionXY.first + numberLength + 1
+                val minY = number.startPositionXY.second - 1
+                val maxY = number.startPositionXY.second + 1
+
+                for (x in minX..maxX) {
+                    for (y in minY..maxY) {
+                        symbolMap[x to y]?.let { number.addSymbol(it) }
+                    }
+                }
+            }
         }
 
         private fun addCharToNumber(numberValue: Int?, char: Char): Int =
