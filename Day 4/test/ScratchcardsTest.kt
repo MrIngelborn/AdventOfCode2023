@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test
 
 class ScratchcardsTest {
     private val testFile = "test_input.txt"
-    private lateinit var cards: List<Card>
+    private lateinit var cardCollection: CardCollection
+    private val cards: List<Card>
+        get() = cardCollection.cards
     private val firstCardWinningNumbers = setOf(41, 48, 83, 86, 17)
     private val firstCardNumbersYouHave = setOf(83, 86, 6, 31, 17, 9, 48, 53)
 
@@ -13,7 +15,7 @@ class ScratchcardsTest {
 
     @BeforeEach
     fun createCards() {
-        cards = getTestDataLines().mapNotNull { line -> Card.create(line) }
+        cardCollection = CardCollection.createFromLines(getTestDataLines())
     }
 
     @Test
