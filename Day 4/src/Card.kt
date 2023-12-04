@@ -2,7 +2,7 @@ import kotlin.math.pow
 
 class Card(val winningNumbers: Set<Int>, val numbersYouHave: Set<Int>) {
     companion object Factory {
-        private val lineRegex = Regex("Card \\d+:(.*)\\|(.*)")
+        private val lineRegex = Regex("Card\\s+\\d+:(.*)\\|(.*)")
         private val numberRegex = Regex("\\d+")
         fun create(line: String): Card? =
             lineRegex.find(line)?.let { match ->
