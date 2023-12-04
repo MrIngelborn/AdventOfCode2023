@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test
 
 class ScratchcardsTest {
     private val testFile = "test_input.txt"
-    lateinit var cards: List<Card>
-    val firstCardWinningNumbers = setOf(41, 48, 83, 86, 17)
-    val firstCardNumbersYouHave = setOf(83, 86, 6, 31, 17, 9, 48, 53)
+    private lateinit var cards: List<Card>
+    private val firstCardWinningNumbers = setOf(41, 48, 83, 86, 17)
+    private val firstCardNumbersYouHave = setOf(83, 86, 6, 31, 17, 9, 48, 53)
 
     private fun getTestDataLines() = object {}.javaClass.getResource(testFile)?.toURI()!!.let(::File).readLines()
 
@@ -45,7 +45,7 @@ class ScratchcardsTest {
     }
 
     @Test
-    fun sumOfAllPonts() {
+    fun sumOfAllPoints() {
         Assertions.assertEquals(13, cards.map(Card::getPoints).sum())
     }
 
