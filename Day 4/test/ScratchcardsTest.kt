@@ -13,7 +13,7 @@ class ScratchcardsTest {
 
     @BeforeEach
     fun createCards() {
-        cards = getTestDataLines().map { line -> Card.create(line) }
+        cards = getTestDataLines().mapNotNull { line -> Card.create(line) }
     }
 
     @Test
