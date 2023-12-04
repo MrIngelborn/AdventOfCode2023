@@ -51,4 +51,19 @@ class ScratchcardsTest {
         Assertions.assertEquals(13, cards.map(Card::getPoints).sum())
     }
 
+    @Test
+    fun canAddInstances() {
+        cardCollection.playGame()
+        Assertions.assertEquals(1, cards[0].instances)
+        Assertions.assertEquals(2, cards[1].instances)
+        Assertions.assertEquals(14, cards[4].instances)
+        Assertions.assertEquals(1, cards[5].instances)
+    }
+
+    @Test
+    fun instancesSumIsCorrect() {
+        cardCollection.playGame()
+        Assertions.assertEquals(30, cardCollection.instancesSum)
+    }
+
 }

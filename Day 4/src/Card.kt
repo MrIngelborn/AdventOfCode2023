@@ -17,6 +17,8 @@ class Card(val winningNumbers: Set<Int>, val numbersYouHave: Set<Int>) {
             }.toSet()
     }
 
+    var instances = 1
+
     fun getWinningNumbersYouHave(): Set<Int> {
         return numbersYouHave.intersect(winningNumbers)
     }
