@@ -6,6 +6,9 @@ fun main() {
     val cardCollection = CardCollection.createFromLines(getInputLines())
 
     cardCollection.cards.map(Card::getPoints).sum().let(::println)
+
+    cardCollection.playGame()
+    cardCollection.instancesSum.let(::println)
 }
 
 private fun getInputLines() =
