@@ -1,3 +1,5 @@
+import kotlin.math.pow
+
 class Card(val winningNumbers: Set<Int>, val numbersYouHave: Set<Int>) {
     companion object Factory {
         private val lineRegex = Regex("Card \\d+:(.*)\\|(.*)")
@@ -16,9 +18,15 @@ class Card(val winningNumbers: Set<Int>, val numbersYouHave: Set<Int>) {
     }
 
     fun getWinningNumbersYouHave(): Set<Int> {
-        return setOf()
+        return numbersYouHave.intersect(winningNumbers)
     }
 
-    fun getPoints(): Int = 0
+    fun getPoints(): Int =
+        getWinningNumbersYouHave()
+            .takeUnless(Set<Int>::isEmpty)
+            ?.count()
+            ?.let { count ->
+                2.0.pow(count-1).toInt()
+            } ?: 0
 
 }

@@ -23,18 +23,18 @@ class ScratchcardsTest {
 
     @Test
     fun canParseWinningNumbers() {
-        Assertions.assertIterableEquals(firstCardWinningNumbers, cards[0].winningNumbers)
+        Assertions.assertEquals(firstCardWinningNumbers, cards[0].winningNumbers)
     }
 
     @Test
     fun canParseNumbersYouHave() {
-        Assertions.assertIterableEquals(firstCardNumbersYouHave, cards[0].numbersYouHave)
+        Assertions.assertEquals(firstCardNumbersYouHave, cards[0].numbersYouHave)
     }
 
     @Test
     fun canGetWinningCards() {
-        Assertions.assertIterableEquals(setOf(48, 83, 17, 86), cards[0].getWinningNumbersYouHave())
-        Assertions.assertIterableEquals(setOf(32, 61), cards[1].getWinningNumbersYouHave())
+        Assertions.assertEquals(setOf(48, 83, 17, 86), cards[0].getWinningNumbersYouHave())
+        Assertions.assertEquals(setOf(32, 61), cards[1].getWinningNumbersYouHave())
     }
 
     @Test
