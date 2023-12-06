@@ -3,6 +3,7 @@ import kotlin.math.sqrt
 
 class TimeSheet(val timeDistancePairs: Set<Pair<Int, Int>>) {
 
+
     companion object Factory {
         private val lineRegex = Regex("\\w+:(.*)")
         private val numberRegex = Regex("\\d+")
@@ -39,5 +40,6 @@ class TimeSheet(val timeDistancePairs: Set<Pair<Int, Int>>) {
     private fun roundPairToInt(pair: Pair<Double, Double>): Pair<Int, Int> =
         pair.first.inc().toInt() to pair.second.minus(0.0001).toInt()
 
-
+    val numberOfWaysToWinProduct: Int
+        get() = timeDistancePairs.map(::numberOfWaysToWin).reduce(Int::times)
 }

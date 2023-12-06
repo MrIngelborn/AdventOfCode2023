@@ -28,4 +28,9 @@ class RaceTest {
         assertEquals(9, timeSheet.numberOfWaysToWin(30 to 200))
     }
 
+    @Test
+    fun canCalculateNumberOfWaysToWinProduct() {
+        assertEquals(288, timeSheet.numberOfWaysToWinProduct)
+    }
+
 }
