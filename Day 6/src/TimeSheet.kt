@@ -20,6 +20,20 @@ class TimeSheet(val timeDistancePairs: Set<Pair<Int, Int>>) {
                 .map(MatchResult::value)
                 .map(String::toInt)
                 .toList()
+
+        fun createMerged(lines: List<String>): TimeSheet {
+            val time = parseMergedNumber(lines[0])
+            val distance = parseMergedNumber(lines[1])
+
+            return TimeSheet(setOf(time to distance))
+        }
+
+        private fun parseMergedNumber(line: String): Int =
+            lineRegex.find(line)!!.groups[1]!!.value
+                .let { numberRegex.findAll(it) }
+                .map(MatchResult::value)
+                .joinToString("")
+                .let(String::toInt)
     }
 
     fun numberOfWaysToWin(pair: Pair<Int, Int>): Int {
