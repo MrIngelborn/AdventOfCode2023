@@ -17,8 +17,8 @@ class AlmanacTest {
 
     @Test
     fun canParseSeeds() {
-        val seedSet: Set<Int> = almanac.seeds.toSet()
-        Assertions.assertEquals(setOf(79, 14, 55, 13), seedSet)
+        val seedSet: Set<Long> = almanac.seeds.toSet()
+        Assertions.assertEquals(setOf(79L, 14L, 55L, 13L), seedSet)
     }
 
     @Test

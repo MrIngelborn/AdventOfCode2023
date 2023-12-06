@@ -1,12 +1,12 @@
 class Almanac(
-    val seeds: Set<Int>,
-    private val seedToSoilMap: Map<Pair<Int, Int>, Int>,
-    private val soilToFertilizerMap: Map<Pair<Int, Int>, Int>,
-    private val fertilizerToWaterMap: Map<Pair<Int, Int>, Int>,
-    private val waterToLightMap: Map<Pair<Int, Int>, Int>,
-    private val lightToTemperatureMap: Map<Pair<Int, Int>, Int>,
-    private val temperatureToHumidityMap: Map<Pair<Int, Int>, Int>,
-    private val humidityToLocationMap: Map<Pair<Int, Int>, Int>
+    val seeds: Set<Long>,
+    private val seedToSoilMap: Map<Pair<Long, Long>, Long>,
+    private val soilToFertilizerMap: Map<Pair<Long, Long>, Long>,
+    private val fertilizerToWaterMap: Map<Pair<Long, Long>, Long>,
+    private val waterToLightMap: Map<Pair<Long, Long>, Long>,
+    private val lightToTemperatureMap: Map<Pair<Long, Long>, Long>,
+    private val temperatureToHumidityMap: Map<Pair<Long, Long>, Long>,
+    private val humidityToLocationMap: Map<Pair<Long, Long>, Long>
 ) {
     companion object Factory {
         private val numberRegex = Regex("\\d+")
@@ -16,7 +16,7 @@ class Almanac(
 
         fun create(lines: List<String>): Almanac {
             val mutableLines = lines.toMutableList()
-            val seeds: Set<Int> = parseSeeds(mutableLines)
+            val seeds: Set<Long> = parseSeeds(mutableLines)
             val seedToSoilMap = parseMap(mutableLines)
             val soilToFertilizerMap = parseMap(mutableLines)
             val fertilizerToWaterMap = parseMap(mutableLines)
@@ -31,25 +31,25 @@ class Almanac(
             )
         }
 
-        private fun parseSeeds(lines: MutableList<String>): Set<Int> {
-            var seedSet: Set<Int>?
+        private fun parseSeeds(lines: MutableList<String>): Set<Long> {
+            var seedSet: Set<Long>?
             do {
                 seedSet = seedsRegex.find(lines.removeFirst())?.let { result ->
                     val seedsString = result.groups[1]!!.value
-                    numberRegex.findAll(seedsString).map(MatchResult::value).map(Integer::parseInt).toSet()
+                    numberRegex.findAll(seedsString).map(MatchResult::value).map(String::toLong).toSet()
                 }
             } while (seedSet == null)
             return seedSet
         }
 
-        private fun parseMap(lines: MutableList<String>): Map<Pair<Int, Int>, Int> {
+        private fun parseMap(lines: MutableList<String>): Map<Pair<Long, Long>, Long> {
             while (!mapHeaderRegex.matches(lines.removeFirst()));
 
-            val map = mutableMapOf<Pair<Int, Int>, Int>()
+            val map = mutableMapOf<Pair<Long, Long>, Long>()
             do {
                 mapLineRegex.find(lines.removeFirst())?.let {
                     val mapLineValues =
-                        it.groups.toList().subList(1, 4).map { group -> group!!.value }.map(Integer::parseInt)
+                        it.groups.toList().subList(1, 4).map { group -> group!!.value }.map(String::toLong)
                     val destinationRangeStart = mapLineValues[0]
                     val sourceRangeStart = mapLineValues[1]
                     val rangeLength = mapLineValues[2]
@@ -60,7 +60,7 @@ class Almanac(
         }
     }
 
-    val lowestLocation: Int
+    val lowestLocation: Long
         get() = seeds.asSequence()
             .map(::mapSeedToSoil)
             .map(::mapSoilToFertilizer)
@@ -71,26 +71,26 @@ class Almanac(
             .map(::mapHumidityToLocation)
             .reduce(Math::min)
 
-    private fun applyMap(map: Map<Pair<Int, Int>, Int>, i: Int): Int {
-        map.forEach { entry: Map.Entry<Pair<Int, Int>, Int> ->
+    private fun applyMap(map: Map<Pair<Long, Long>, Long>, i: Long): Long {
+        map.forEach { entry: Map.Entry<Pair<Long, Long>, Long> ->
             if (i in entry.key.first..entry.key.second)
                 return (i - entry.key.first) + entry.value
         }
         return i
     }
 
-    fun mapSeedToSoil(seed: Int): Int = applyMap(seedToSoilMap, seed)
+    fun mapSeedToSoil(seed: Long): Long = applyMap(seedToSoilMap, seed)
 
-    fun mapSoilToFertilizer(soil: Int): Int = applyMap(soilToFertilizerMap, soil)
+    fun mapSoilToFertilizer(soil: Long): Long = applyMap(soilToFertilizerMap, soil)
 
-    fun mapFertilizerToWater(fertilizer: Int): Int = applyMap(fertilizerToWaterMap, fertilizer)
+    fun mapFertilizerToWater(fertilizer: Long): Long = applyMap(fertilizerToWaterMap, fertilizer)
 
-    fun mapWaterToLight(water: Int): Int = applyMap(waterToLightMap, water)
+    fun mapWaterToLight(water: Long): Long = applyMap(waterToLightMap, water)
 
-    fun mapLightToTemperature(light: Int): Int = applyMap(lightToTemperatureMap, light)
+    fun mapLightToTemperature(light: Long): Long = applyMap(lightToTemperatureMap, light)
 
-    fun mapTemperatureToHumidity(temperature: Int): Int = applyMap(temperatureToHumidityMap, temperature)
+    fun mapTemperatureToHumidity(temperature: Long): Long = applyMap(temperatureToHumidityMap, temperature)
 
-    fun mapHumidityToLocation(humidity: Int): Int = applyMap(humidityToLocationMap, humidity)
+    fun mapHumidityToLocation(humidity: Long): Long = applyMap(humidityToLocationMap, humidity)
 
 }
