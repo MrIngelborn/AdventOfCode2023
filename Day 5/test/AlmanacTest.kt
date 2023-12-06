@@ -82,4 +82,9 @@ class AlmanacTest {
         Assertions.assertEquals(35, almanac.lowestLocation)
     }
 
+    @Test
+    fun canFindLowestLocationWithRange() {
+        Assertions.assertEquals(46, almanac.lowestLocationRange)
+    }
+
 }

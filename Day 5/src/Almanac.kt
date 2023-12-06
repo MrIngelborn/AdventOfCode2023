@@ -71,6 +71,21 @@ class Almanac(
             .map(::mapHumidityToLocation)
             .reduce(Math::min)
 
+    val lowestLocationRange: Long
+        get() = seeds.chunked(2) {list ->
+            list[0]..<list[0]+list[1]
+        }
+            .asSequence()
+            .flatten()
+            .map(::mapSeedToSoil)
+            .map(::mapSoilToFertilizer)
+            .map(::mapFertilizerToWater)
+            .map(::mapWaterToLight)
+            .map(::mapLightToTemperature)
+            .map(::mapTemperatureToHumidity)
+            .map(::mapHumidityToLocation)
+            .reduce(Math::min)
+
     private fun applyMap(map: Map<Pair<Long, Long>, Long>, i: Long): Long {
         map.forEach { entry: Map.Entry<Pair<Long, Long>, Long> ->
             if (i in entry.key.first..entry.key.second)
