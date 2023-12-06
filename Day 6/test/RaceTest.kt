@@ -18,14 +18,14 @@ class RaceTest {
 
     @Test
     fun canParseTimeDistance() {
-        assertEquals(setOf(7 to 9, 15 to 40, 30 to 200), timeSheet.timeDistancePairs)
+        assertEquals(setOf(7L to 9L, 15L to 40L, 30L to 200L), timeSheet.timeDistancePairs)
     }
 
     @Test
     fun canCalculateNumberOfWaysToWin() {
-        assertEquals(4, timeSheet.numberOfWaysToWin(7 to 9))
-        assertEquals(8, timeSheet.numberOfWaysToWin(15 to 40))
-        assertEquals(9, timeSheet.numberOfWaysToWin(30 to 200))
+        assertEquals(4, timeSheet.numberOfWaysToWin(7L to 9L))
+        assertEquals(8, timeSheet.numberOfWaysToWin(15L to 40L))
+        assertEquals(9, timeSheet.numberOfWaysToWin(30L to 200L))
     }
 
     @Test

@@ -1,24 +1,24 @@
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
-class TimeSheet(val timeDistancePairs: Set<Pair<Int, Int>>) {
+class TimeSheet(val timeDistancePairs: Set<Pair<Long, Long>>) {
 
 
     companion object Factory {
         private val lineRegex = Regex("\\w+:(.*)")
         private val numberRegex = Regex("\\d+")
         fun create(lines: List<String>): TimeSheet {
-            val timeList: List<Int> = parseNumbers(lines[0])
-            val distanceList: List<Int> = parseNumbers(lines[1])
+            val timeList: List<Long> = parseNumbers(lines[0])
+            val distanceList: List<Long> = parseNumbers(lines[1])
 
             return TimeSheet(timeList.zip(distanceList).toSet())
         }
 
-        private fun parseNumbers(line: String): List<Int> =
+        private fun parseNumbers(line: String): List<Long> =
             lineRegex.find(line)!!.groups[1]!!.value
                 .let { numberRegex.findAll(it) }
                 .map(MatchResult::value)
-                .map(String::toInt)
+                .map(String::toLong)
                 .toList()
 
         fun createMerged(lines: List<String>): TimeSheet {
@@ -28,15 +28,15 @@ class TimeSheet(val timeDistancePairs: Set<Pair<Int, Int>>) {
             return TimeSheet(setOf(time to distance))
         }
 
-        private fun parseMergedNumber(line: String): Int =
+        private fun parseMergedNumber(line: String): Long =
             lineRegex.find(line)!!.groups[1]!!.value
                 .let { numberRegex.findAll(it) }
                 .map(MatchResult::value)
                 .joinToString("")
-                .let(String::toInt)
+                .let(String::toLong)
     }
 
-    fun numberOfWaysToWin(pair: Pair<Int, Int>): Int {
+    fun numberOfWaysToWin(pair: Pair<Long, Long>): Long {
         val roots = solveForRealRoots(-1.0, pair.first.toDouble(), -pair.second.toDouble())!!.let(::roundPairToInt)
         return roots.second - roots.first + 1
     }
@@ -51,9 +51,9 @@ class TimeSheet(val timeDistancePairs: Set<Pair<Int, Int>>) {
         return Pair(root1, root2)
     }
 
-    private fun roundPairToInt(pair: Pair<Double, Double>): Pair<Int, Int> =
-        pair.first.inc().toInt() to pair.second.minus(0.0001).toInt()
+    private fun roundPairToInt(pair: Pair<Double, Double>): Pair<Long, Long> =
+        pair.first.inc().toLong() to pair.second.minus(0.0001).toLong()
 
-    val numberOfWaysToWinProduct: Int
-        get() = timeDistancePairs.map(::numberOfWaysToWin).reduce(Int::times)
+    val numberOfWaysToWinProduct: Long
+        get() = timeDistancePairs.map(::numberOfWaysToWin).reduce(Long::times)
 }
