@@ -1,7 +1,24 @@
-class Almanac(val seeds: List<Int>) {
+class Almanac(val seeds: Set<Int>) {
     companion object Factory {
-        fun create(testDataLines: List<String>): Almanac {
-            return Almanac(listOf())
+        private val numberRegex = Regex("\\d+")
+        private val seedsRegex = Regex("seeds:(.*)")
+
+        fun create(lines: List<String>): Almanac {
+            val mutableLines = lines.toMutableList()
+            val seeds: Set<Int> = parseSeeds(mutableLines)
+
+            return Almanac(seeds)
+        }
+
+        private fun parseSeeds(lines: MutableList<String>): Set<Int> {
+            var seedSet : Set<Int>?
+            do {
+                seedSet = seedsRegex.find(lines.removeFirst())?.let { result ->
+                    val seedsString = result.groups[1]!!.value
+                    numberRegex.findAll(seedsString).map(MatchResult::value).map(Integer::parseInt).toSet()
+                }
+            } while (seedSet == null)
+            return seedSet
         }
     }
 
