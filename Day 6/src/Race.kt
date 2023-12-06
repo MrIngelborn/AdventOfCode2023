@@ -9,4 +9,6 @@ private fun getInputLines() =
 fun main() {
     val timeSheet = TimeSheet.create(getInputLines())
     timeSheet.numberOfWaysToWinProduct.let(::println)
+    val timeSheetMerged = TimeSheet.createMerged(getInputLines())
+    timeSheetMerged.numberOfWaysToWinProduct.let(::println)
 }
