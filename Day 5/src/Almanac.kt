@@ -61,8 +61,15 @@ class Almanac(
     }
 
     val lowestLocation: Int
-        get() = 0
-
+        get() = seeds.asSequence()
+            .map(::mapSeedToSoil)
+            .map(::mapSoilToFertilizer)
+            .map(::mapFertilizerToWater)
+            .map(::mapWaterToLight)
+            .map(::mapLightToTemperature)
+            .map(::mapTemperatureToHumidity)
+            .map(::mapHumidityToLocation)
+            .reduce(Math::min)
 
     private fun applyMap(map: Map<Pair<Int, Int>, Int>, i: Int): Int {
         map.forEach { entry: Map.Entry<Pair<Int, Int>, Int> ->
