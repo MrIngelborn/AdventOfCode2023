@@ -19,9 +19,9 @@ class CamelCards(val handToBidPairs: List<Pair<Hand, Int>>) {
         get() = handToBidPairs.sortedBy { pair: Pair<Hand, Int> -> pair.first }
 
     val totalWinnings: Int
-        get() {
-            TODO()
-        }
+        get() = sortedHandBidPairs.mapIndexed { index, pair ->
+            (index + 1) * pair.second
+        }.sum()
 
 }
 
