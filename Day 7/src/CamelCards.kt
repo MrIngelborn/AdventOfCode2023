@@ -16,10 +16,7 @@ class CamelCards(val handToBidPairs: List<Pair<Hand, Int>>) {
     }
 
     val sortedHandBidPairs: List<Pair<Hand, Int>>
-        get() {
-            TODO()
-        }
-
+        get() = handToBidPairs.sortedBy { pair: Pair<Hand, Int> -> pair.first }
 
     val totalWinnings: Int
         get() {

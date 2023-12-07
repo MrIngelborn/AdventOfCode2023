@@ -49,20 +49,21 @@ class CamelCardsTest {
 
     @Test
     fun canOrderHands() {
-        assertTrue(camelCards.handToBidPairs[0].first < camelCards.handToBidPairs[1].first)
-        assertTrue(camelCards.handToBidPairs[2].first > camelCards.handToBidPairs[3].first)
-        assertTrue(camelCards.handToBidPairs[1].first < camelCards.handToBidPairs[4].first)
+        assertTrue(Hand.create("32T3K") < Hand.create("KTJJT"))
+        assertTrue(Hand.create("KTJJT") < Hand.create("KK677"))
+        assertTrue(Hand.create("KK677") < Hand.create("T55J5"))
+        assertTrue(Hand.create("T55J5") < Hand.create("QQQJA"))
     }
 
     @Test
     fun canSortHandBetPairs() {
         val sortedPairs: List<Pair<Hand,Int>> = camelCards.sortedHandBidPairs
         assertEquals(listOf(
-            camelCards.handToBidPairs[0].first,
-            camelCards.handToBidPairs[3].first,
-            camelCards.handToBidPairs[2].first,
-            camelCards.handToBidPairs[1].first,
-            camelCards.handToBidPairs[4].first,
+            camelCards.handToBidPairs[0],
+            camelCards.handToBidPairs[3],
+            camelCards.handToBidPairs[2],
+            camelCards.handToBidPairs[1],
+            camelCards.handToBidPairs[4],
         ), sortedPairs)
     }
 

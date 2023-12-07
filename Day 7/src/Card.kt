@@ -26,4 +26,8 @@ class Card(val value: Char) : Comparable<Card> {
             'A' -> 14
             else -> 0
         }
+
+    override fun toString(): String {
+        return "$value"
+    }
 }

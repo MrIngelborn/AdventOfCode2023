@@ -28,18 +28,22 @@ class Hand(val cards: List<Card>) : Comparable<Hand> {
         return when (cardGroups.size) {
             1 -> Type.FIVE
             2 -> {
-                if (maxSize == 4) Type.FOUR
-                Type.HOUSE
+                if (maxSize == 4) return Type.FOUR
+                return Type.HOUSE
             }
 
             3 -> {
-                if (maxSize == 3) Type.THREE
-                Type.TWO_PAIR
+                if (maxSize == 3) return Type.THREE
+                return Type.TWO_PAIR
             }
 
             4 -> Type.PAIR
             5 -> Type.HIGH
             else -> throw IllegalStateException()
         }
+    }
+
+    override fun toString(): String {
+        return cards.map(Card::toString).joinToString("")
     }
 }
