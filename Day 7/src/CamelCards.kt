@@ -1,3 +1,5 @@
+import java.io.File
+
 class CamelCards(val handToBidPairs: List<Pair<Hand, Int>>) {
 
     companion object Factory {
@@ -23,6 +25,16 @@ class CamelCards(val handToBidPairs: List<Pair<Hand, Int>>) {
             (index + 1) * pair.second
         }.sum()
 
+}
+
+private const val inputFileName = "input.txt"
+
+private val inputLines
+    get() = object {}.javaClass.getResource(inputFileName)?.toURI()!!.let(::File).readLines()
+
+fun main() {
+    val camelCards = CamelCards.create(inputLines)
+    camelCards.totalWinnings.let(::println)
 }
 
 
