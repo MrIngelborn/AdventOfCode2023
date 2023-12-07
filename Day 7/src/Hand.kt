@@ -48,6 +48,6 @@ class Hand(val cards: List<Card>) : Comparable<Hand> {
         }
 
     override fun toString(): String {
-        return cards.map(Card::toString).joinToString("")
+        return cards.joinToString("", transform = Card::toString)
     }
 }
