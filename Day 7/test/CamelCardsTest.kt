@@ -50,7 +50,7 @@ class CamelCardsTest {
     @Test
     fun canOrderHands() {
         assertTrue(camelCards.handToBidPairs[0].first < camelCards.handToBidPairs[1].first)
-        assertTrue(camelCards.handToBidPairs[2].first < camelCards.handToBidPairs[1].first)
+        assertTrue(camelCards.handToBidPairs[2].first > camelCards.handToBidPairs[3].first)
         assertTrue(camelCards.handToBidPairs[1].first < camelCards.handToBidPairs[4].first)
     }
 
