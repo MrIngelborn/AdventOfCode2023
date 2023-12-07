@@ -45,14 +45,15 @@ class CamelCardsTest {
          assertTrue(Card('4') == Card('4'))
          assertTrue(Card('T') > Card('9'))
          assertTrue(Card('K') > Card('Q'))
+         assertTrue(Card('J') < Card('2'))
      }
 
     @Test
     fun canOrderHands() {
-        assertTrue(Hand.create("32T3K") < Hand.create("KTJJT"))
-        assertTrue(Hand.create("KTJJT") < Hand.create("KK677"))
+        assertTrue(Hand.create("32T3K") < Hand.create("KK677"))
         assertTrue(Hand.create("KK677") < Hand.create("T55J5"))
         assertTrue(Hand.create("T55J5") < Hand.create("QQQJA"))
+        assertTrue(Hand.create("QQQJA") < Hand.create("KTJJT"))
     }
 
     @Test
@@ -60,16 +61,16 @@ class CamelCardsTest {
         val sortedPairs: List<Pair<Hand,Int>> = camelCards.sortedHandBidPairs
         assertEquals(listOf(
             camelCards.handToBidPairs[0],
-            camelCards.handToBidPairs[3],
             camelCards.handToBidPairs[2],
             camelCards.handToBidPairs[1],
             camelCards.handToBidPairs[4],
+            camelCards.handToBidPairs[3],
         ), sortedPairs)
     }
 
     @Test
     fun canCalculateTotalWinnings() {
         val sortedPairs: List<Pair<Hand,Int>> = camelCards.sortedHandBidPairs
-        assertEquals(6440, camelCards.totalWinnings)
+        assertEquals(5905, camelCards.totalWinnings)
     }
 }

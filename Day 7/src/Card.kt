@@ -20,7 +20,7 @@ class Card(val value: Char) : Comparable<Card> {
         get() = when (value) {
             in '2'..'9' -> value-'0'
             'T' -> 10
-            'J' -> 11
+            'J' -> 1
             'Q' -> 12
             'K' -> 13
             'A' -> 14

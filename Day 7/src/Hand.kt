@@ -22,26 +22,30 @@ class Hand(val cards: List<Card>) : Comparable<Hand> {
 
     private val type: Type
         get() {
-        val cardGroups = cards.groupBy { card -> card.value }.values
-        val maxSize = cardGroups.maxOfOrNull(List<Card>::size)!!
+            val cardGroups = cards.groupBy { card -> card.value }.values
+            val jokers = cardGroups.filter { list -> list.contains(Card('J')) }
+            val cardGroupsNoJokers = cardGroups.filterNot { list -> list.contains(Card('J')) }
 
-        return when (cardGroups.size) {
-            1 -> Type.FIVE
-            2 -> {
-                if (maxSize == 4) return Type.FOUR
-                return Type.HOUSE
+            val numberOfJokers = jokers.flatten().size
+            val maxSize = (cardGroupsNoJokers.maxOfOrNull(List<Card>::size) ?: 0) + numberOfJokers
+
+            return when (cardGroupsNoJokers.size) {
+                0,1 -> Type.FIVE
+                2 -> {
+                    if (maxSize == 4) return Type.FOUR
+                    return Type.HOUSE
+                }
+
+                3 -> {
+                    if (maxSize == 3) return Type.THREE
+                    return Type.TWO_PAIR
+                }
+
+                4 -> Type.PAIR
+                5 -> Type.HIGH
+                else -> throw IllegalStateException()
             }
-
-            3 -> {
-                if (maxSize == 3) return Type.THREE
-                return Type.TWO_PAIR
-            }
-
-            4 -> Type.PAIR
-            5 -> Type.HIGH
-            else -> throw IllegalStateException()
         }
-    }
 
     override fun toString(): String {
         return cards.map(Card::toString).joinToString("")
