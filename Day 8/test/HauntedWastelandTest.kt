@@ -69,7 +69,7 @@ class HauntedWastelandTest {
         fun canParseNodes() {
             val nodeMap : Map<String,Pair<String,String>> = network.nodeMap
 
-            assertEquals(7, nodeMap.size)
+            assertEquals(3, nodeMap.size)
 
             assertEquals("BBB", nodeMap["AAA"]?.first)
             assertEquals("BBB", nodeMap["AAA"]?.second)
