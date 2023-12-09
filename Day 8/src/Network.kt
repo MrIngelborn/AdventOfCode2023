@@ -36,7 +36,17 @@ class Network(val instructions: List<Instruction>, val nodeMap: Map<String, Pair
         instructions[index % instructions.size]
 
     fun getSteps(): Int {
-        TODO()
+        var currentIndex = "AAA"
+        var steps = 0
+        while (currentIndex != "ZZZ") {
+            val node = nodeMap[currentIndex]!!
+            currentIndex = when (getInstruction(steps)) {
+                Instruction.LEFT -> node.first
+                Instruction.RIGHT -> node.second
+            }
+            steps++
+        }
+        return steps
     }
 
 }
