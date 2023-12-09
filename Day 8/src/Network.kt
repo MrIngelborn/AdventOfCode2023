@@ -40,22 +40,38 @@ class Network(val instructions: List<Instruction>, val nodeMap: Map<String, Pair
         var currentIndex = "AAA"
         var steps = 0
         while (currentIndex != "ZZZ") {
-            val node = nodeMap[currentIndex]!!
-            currentIndex = when (getInstruction(steps)) {
-                Instruction.LEFT -> node.first
-                Instruction.RIGHT -> node.second
-            }
+            currentIndex = step (currentIndex, getInstruction(steps))
             steps++
         }
         return steps
     }
 
     val startingNodes: Collection<String>
-        get() = TODO()
+        get() = nodeMap.keys.filter { key ->
+            key.endsWith('A')
+        }
 
 
     fun getStepsAllStartingNodes(): Int {
-        TODO()
+        var currentNodes = startingNodes
+        var steps = 0
+        while (!currentNodes.all { node ->
+            node.endsWith('Z')
+            }) {
+            currentNodes = currentNodes.map { nodeKey ->
+                step(nodeKey, getInstruction(steps))
+            }
+            steps++
+        }
+        return steps
+    }
+
+    private fun step(key : String, instruction: Instruction): String {
+        val node = nodeMap[key]!!
+        return when (instruction) {
+            Instruction.LEFT -> node.first
+            Instruction.RIGHT -> node.second
+        }
     }
 
 }

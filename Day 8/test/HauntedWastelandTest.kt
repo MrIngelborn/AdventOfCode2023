@@ -95,7 +95,7 @@ class HauntedWastelandTest {
 
         @Test
         fun canFindStartingNodes() {
-            assertEquals(setOf("11A", "22A"), network.startingNodes)
+            assertEquals(setOf("11A", "22A"), network.startingNodes.toSet())
         }
         @Test
         fun canCalculateSteps() {
