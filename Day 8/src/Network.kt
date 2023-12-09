@@ -1,5 +1,7 @@
 import java.util.Collections
+import java.util.concurrent.atomic.AtomicBoolean
 import java.util.stream.Collectors
+import kotlin.concurrent.thread
 
 class Network(val instructions: List<Instruction>, val nodeMap: Map<String, Pair<String, String>>) {
 
@@ -33,12 +35,12 @@ class Network(val instructions: List<Instruction>, val nodeMap: Map<String, Pair
                 }
     }
 
-    fun getInstruction(index: Int): Instruction =
-        instructions[index % instructions.size]
+    fun getInstruction(index: Long): Instruction =
+        instructions[(index % instructions.size).toInt()]
 
-    fun getSteps(): Int {
+    fun getSteps(): Long {
         var currentIndex = "AAA"
-        var steps = 0
+        var steps = 0L
         while (currentIndex != "ZZZ") {
             currentIndex = step (currentIndex, getInstruction(steps))
             steps++
@@ -52,18 +54,32 @@ class Network(val instructions: List<Instruction>, val nodeMap: Map<String, Pair
         }
 
 
-    fun getStepsAllStartingNodes(): Int {
+    fun getStepsAllStartingNodes(): Long {
         var currentNodes = startingNodes
-        var steps = 0
-        while (!currentNodes.all { node ->
-            node.endsWith('Z')
-            }) {
-            currentNodes = currentNodes.map { nodeKey ->
-                step(nodeKey, getInstruction(steps))
+        val resultLists: List<MutableSet<Long>> = List(startingNodes.size) { mutableSetOf() }
+        var found = AtomicBoolean()
+
+        currentNodes.forEachIndexed { index, startNode ->
+            thread(start = true) {
+                var steps = 0L
+                var currentNode = startNode
+                while (!found.get()) {
+                    currentNode = step (currentNode, getInstruction(steps))
+                    steps++
+                    if ( currentNode.endsWith('Z') ) {
+                        resultLists[index].add(steps)
+                        if (resultListIntersection(resultLists).isNotEmpty()) {
+                            found.set(true)
+                        }
+                    }
+                }
             }
-            steps++
         }
-        return steps
+        return resultListIntersection(resultLists).first()
+    }
+
+    fun resultListIntersection(resultLists: List<MutableSet<Long>>) = resultLists.reduce { set, acc ->
+        acc.intersect(set) as MutableSet<Long>
     }
 
     private fun step(key : String, instruction: Instruction): String {
