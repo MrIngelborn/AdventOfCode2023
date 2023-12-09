@@ -3,6 +3,7 @@ import java.util.stream.Collectors
 
 class Network(val instructions: List<Instruction>, val nodeMap: Map<String, Pair<String, String>>) {
 
+
     companion object Factory {
         private val instructionsRegex = Regex("[RL]+")
         private val nodeRegex = Regex("(\\w+) = \\((\\w+), (\\w+)\\)")
@@ -47,6 +48,14 @@ class Network(val instructions: List<Instruction>, val nodeMap: Map<String, Pair
             steps++
         }
         return steps
+    }
+
+    val startingNodes: Collection<String>
+        get() = TODO()
+
+
+    fun getStepsAllStartingNodes(): Int {
+        TODO()
     }
 
 }

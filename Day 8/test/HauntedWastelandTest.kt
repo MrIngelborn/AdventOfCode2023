@@ -80,5 +80,27 @@ class HauntedWastelandTest {
             assertEquals(6, network.getSteps())
         }
     }
+    @Nested
+    inner class Input3 {
+        private val testFile = "test_input3.txt"
+        private val testData1Lines
+            get() = object {}.javaClass.getResource(testFile)?.toURI()!!.let(::File).readLines()
+
+        private lateinit var network : Network
+
+        @BeforeEach
+        fun createNetwork() {
+            network = Network.create(testData1Lines)
+        }
+
+        @Test
+        fun canFindStartingNodes() {
+            assertEquals(setOf("11A", "22A"), network.startingNodes)
+        }
+        @Test
+        fun canCalculateSteps() {
+            assertEquals(6, network.getStepsAllStartingNodes())
+        }
+    }
 
 }
