@@ -1,8 +1,8 @@
-class Step(val string: String) {
+class Step(private val string: String, val operation: Any, val label: Any, val focalLength: Int?) {
 
     companion object Factory {
         fun create(string: String) : Step {
-            return Step(string)
+            TODO()
         }
     }
 
