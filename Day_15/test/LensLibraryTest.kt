@@ -4,18 +4,20 @@ import org.junit.jupiter.api.Test
 
 class LensLibraryTest {
 
-    private lateinit var hasher: Hasher
+    private lateinit var initSequence: InitSequence
 
     @BeforeEach
-    fun createHasher() {
+    fun createSequence() {
         val inputParser = InputParser("test_input.txt")
-        hasher = Hasher.parseLines(inputParser.lines)
+        initSequence = InitSequence.parseLines(inputParser.lines)
     }
 
     @Test
     fun canParseData() {
-        val strings: List<String> = hasher.strings
-        assertEquals(11, strings.size)
+        val steps: List<Step> = initSequence.steps
+        assertEquals(11, steps.size)
+
+        val strings: List<String> = steps.map { step -> step.toString() }
         assertEquals("rn=1", strings[0])
         assertEquals("cm-", strings[1])
         assertEquals("ot=7", strings[10])
@@ -23,12 +25,19 @@ class LensLibraryTest {
 
     @Test
     fun canHashString() {
-        val hashValue: Int = hasher.hash("HASH")
+        val hashValue: Int = Hasher.hash("HASH")
         assertEquals(52, hashValue)
     }
 
     @Test
-    fun canCalculateHashSum() {
-        assertEquals(1320, hasher.hashSum)
+    fun canHashStep() {
+        assertEquals(30, initSequence.steps[0].hashValue)
     }
+
+    @Test
+    fun canCalculateHashSum() {
+        assertEquals(1320, initSequence.hashSum)
+    }
+
+
 }

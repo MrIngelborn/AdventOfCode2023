@@ -1,5 +1,5 @@
 fun main() {
     val inputParser = InputParser("input.txt")
-    val hasher = Hasher.parseLines(inputParser.lines)
-    hasher.hashSum.let(::println)
+    val initSequence = InitSequence.parseLines(inputParser.lines)
+    initSequence.hashSum.let(::println)
 }
