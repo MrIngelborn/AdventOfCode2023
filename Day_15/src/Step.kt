@@ -18,8 +18,9 @@ class Step(val operation: Operation, val label: String, val focalLength: Int?) {
         }
     }
 
+
     val hashValue: Int
-        get() = Hasher.hash(this.toString())
+        get() = Hasher.hash(this.label)
 
     override fun toString(): String {
         return label + when (operation) {

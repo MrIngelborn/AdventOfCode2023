@@ -32,7 +32,7 @@ class LensLibraryTest {
 
     @Test
     fun canHashStep() {
-        assertEquals(30, steps[0].hashValue)
+        assertEquals(0, steps[0].hashValue)
     }
 
 
@@ -70,15 +70,15 @@ class LensLibraryTest {
         box.add(Step.create("qp=3"))
         assertEquals(2, box.size())
 
-        assertEquals(1, box[0].focalLength)
-        assertEquals(3, box[1].focalLength)
+        assertEquals(1, box[0])
+        assertEquals(3, box[1])
     }
 
     @Test
     fun canRemoveLensFromBox() {
         val box = Box()
         box.add(Step.create("rn=1"))
-        box.add(Step.create("rn-"))
+        box.remove(Step.create("rn-"))
         assertEquals(0, box.size())
     }
 
@@ -90,8 +90,8 @@ class LensLibraryTest {
         box.add(Step.create("rn=2"))
 
         assertEquals(2, box.size())
-        assertEquals(2, box[0].focalLength)
-        assertEquals(3, box[1].focalLength)
+        assertEquals(2, box[0])
+        assertEquals(3, box[1])
     }
 
     @Test
@@ -101,11 +101,9 @@ class LensLibraryTest {
         boxes.applyStep(steps[1])
         boxes.applyStep(steps[2])
 
-        val lens1: Step = boxes[0][0]
-        assertEquals(steps[0], lens1)
+        assertEquals(steps[0].focalLength, boxes[0][0])
 
-        val lens2: Step = boxes[1][0]
-        assertEquals(steps[2], lens2)
+        assertEquals(steps[2].focalLength, boxes[1][0])
     }
 
     @Test

@@ -1,17 +1,22 @@
 class Boxes {
+    val boxMap: MutableMap<Int, Box> = mutableMapOf()
 
-    operator fun get(index: Int): Box {
-        TODO()
-    }
+    operator fun get(index: Int): Box = boxMap.getOrPut(index, ::Box)
 
     fun applyStep(step: Step) {
-        TODO()
+        when (step.operation) {
+            Operation.ADD -> this[step.hashValue].add(step)
+            Operation.DELETE -> this[step.hashValue].remove(step)
+        }
     }
 
     fun applySteps(steps: List<Step>) {
-        TODO()
+        steps.forEach(::applyStep)
     }
+
     val focusPower: Int
-        get() = TODO()
+        get() = boxMap.map { (index, box) ->
+            (index + 1) * box.focusPower
+        }.sum()
 
 }

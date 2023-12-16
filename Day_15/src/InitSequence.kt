@@ -9,6 +9,6 @@ class InitSequence(val steps: List<Step>) {
     }
 
     val hashSum: Int
-        get() = steps.map(Step::hashValue).sum()
+        get() = steps.map(Step::toString).map(Hasher::hash).sum()
 
 }
